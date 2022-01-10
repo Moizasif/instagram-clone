@@ -1,11 +1,14 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View , TextInput, Dimensions} from 'react-native';
-
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { updateEmail, updatePassword } from '../../actions/user'
+import { useLinkProps } from '@react-navigation/native';
 
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
 
-const Login = () => {
+const Login = (props) => {
    return(
        <View style={styles.container}>
          <Text style={styles.logo}>Instagram</Text>
@@ -16,21 +19,30 @@ const Login = () => {
            <TextInput 
            style={styles.textinput}
            placeholderTextColor={'grey'}
-           placeholder='example@example.com'/>
+           placeholder='example@example.com'
+           onChangeText={input=>props.updateEmail(input)}
+           value={props.user.email}/>
            <View style={styles.label}>
                 <Text style={styles.labelText}>Password</Text>
            </View>
             <TextInput 
            style={styles.textinput}
            placeholderTextColor={'grey'}
-           placeholder='Passcode123'/>
+           placeholder='Passcode123'
+           onChangeText={input=>props.updatePassword(input)}
+           value={props.user.password}/>
          </View>
 
          <View style={styles.mainview2}>
-           <TouchableOpacity style={styles.touch1}>
+           <TouchableOpacity 
+           style={styles.touch1}
+           onPress={() => alert(props.user.email)}>
                   <Text style={styles.touch1text}>LOGIN</Text>
            </TouchableOpacity>
-           <TouchableOpacity style={styles.touch2}>
+           <TouchableOpacity 
+           style={styles.touch2}
+           onPress={()=> props.navigation.navigate('Signup')}
+           >
              <Text style={styles.touch2text1}>Don't have an account? </Text> 
              <Text style={styles.touch2text2}>Signup!</Text>
            </TouchableOpacity>
@@ -123,4 +135,14 @@ const styles = StyleSheet.create({
 
   });
 
-export default Login
+
+  const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({ updateEmail, updatePassword }, dispatch)
+  }
+  const mapStateToProps = (state) => {
+    return{
+      user: state.user,
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
