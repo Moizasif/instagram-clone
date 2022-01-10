@@ -1,9 +1,9 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View , TextInput, Dimensions} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View , TextInput, Dimensions, Image} from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateEmail, updatePassword } from '../../actions/user'
-import { useLinkProps } from '@react-navigation/native';
+
 
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
@@ -11,6 +11,7 @@ const screenWidth = Dimensions.get('window').width
 const Login = (props) => {
    return(
        <View style={styles.container}>
+         <Image source={require('../../assets/backgrounds/nordwood.jpg')} style={{ position:'absolute',zIndex:-1, width:screenWidth, height:screenHeight}}/>
          <Text style={styles.logo}>Instagram</Text>
           <View style={styles.mainview}>
            <View style={styles.label}>
@@ -65,8 +66,8 @@ const styles = StyleSheet.create({
     },
     logo:{
       fontSize:40 ,
-       fontFamily:'logofont',
-        marginVertical:50
+      fontFamily:'logofont',
+      marginVertical:60
     },
     mainview:{
       marginTop:100
@@ -121,7 +122,8 @@ const styles = StyleSheet.create({
     },
     bottomview:{
       position:'absolute',
-      bottom:60 ,
+      top:650 ,
+      bottom: 60,
       justifyContent:'center', 
       alignItems:'center'
     },

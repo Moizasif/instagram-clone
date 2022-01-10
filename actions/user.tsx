@@ -10,3 +10,10 @@ export const updatePassword = (input) => {
         payload: input
     }
 }
+
+export const updateUsername = (input) => {
+    return {
+        type: 'UPDATE_USERNAME',
+        payload: input
+    }
+}
