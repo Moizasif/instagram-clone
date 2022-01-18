@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View, TextInput, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateEmail, updatePassword, updateUsername } from '../../actions/user'
+import { updateEmail, updatePassword, updateUsername, signup } from '../../actions/user'
 
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
@@ -12,8 +12,8 @@ const Signup = (props) => {
    const [repeat, setRepeat] = useState('');
    
    const onLoginPress = () => {
-     if(props.user.password === repeat) {
-       alert('the passcode are identical')
+     if(props.user.password === repeat && props.user.username !== '') {
+       props.signup()
      }else{
        alert('password are different')
      }
@@ -30,8 +30,8 @@ const Signup = (props) => {
            style={styles.textinput}
            placeholderTextColor={'grey'}
            placeholder='your username'
-           onChangeText={input=>props.updateEmail(input)}
-           value={props.user.email}/>
+           onChangeText={input=>props.updateUsername(input)}
+           value={props.user.username}/>
            <View style={styles.label}>
                 <Text style={styles.labelText}>Email</Text>
            </View>
@@ -49,7 +49,8 @@ const Signup = (props) => {
            placeholderTextColor={'grey'}
            placeholder='Passcode123'
            onChangeText={input=>props.updatePassword(input)}
-           value={props.user.password}/>
+           value={props.user.password}
+           secureTextEntry={true}/>
             <View style={styles.label}>
                 <Text style={styles.labelText}>Repeat password</Text>
            </View>
@@ -58,7 +59,8 @@ const Signup = (props) => {
            placeholderTextColor={'grey'}
            placeholder='Repeat Passcode123'
            onChangeText={input=>setRepeat(input)}
-           value={repeat}/>
+           value={repeat}
+           secureTextEntry={true}/>
 
            
            
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
   });
 
   const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ updateEmail, updatePassword, updateUsername }, dispatch)
+    return bindActionCreators({ updateEmail, updatePassword, updateUsername, signup }, dispatch)
   }
   const mapStateToProps = (state) => {
     return{
